@@ -14,7 +14,7 @@ You will need to either
 ### Print any string by omitting the format
 
 ```bash
-cecho '' 'Whatever you want here!'
+cprintf '' 'Whatever you want here!'
 ```
 
 `Whatever you want here!`
@@ -22,7 +22,7 @@ cecho '' 'Whatever you want here!'
 ### Print multiple strings by omitting the format
 
 ```bash
-cecho '' 'Whatever you want here,' ' and there,' ' and some more..'
+cprintf '' 'Whatever you want here,' ' and there,' ' and some more..'
 ```
 
 `Whatever you want here, and there, and some more...`
@@ -30,11 +30,11 @@ cecho '' 'Whatever you want here,' ' and there,' ' and some more..'
 ### Specify a format to use colors with the long or the short notation
 
 ```bash
-cecho '{index=1 color=red}+{index=2 color=green}={index=3 color=blue}' 1 2 3
+cprintf '{index=1 color=red}+{index=2 color=green}={index=3 color=blue}' 1 2 3
 ```
 
 ```bash
-cecho '{#r}+{#g}={#b}' 1 2 3
+cprintf '{#r}+{#g}={#b}' 1 2 3
 ```
 
 <pre><span style="color:red;">1</span>+<span style="color:green;">2</span>=<span style="color:blue;">3</span></pre>
@@ -43,7 +43,7 @@ cecho '{#r}+{#g}={#b}' 1 2 3
 
 Use either codes, single letters or words to describe a color.
 
-`cecho '{%1#1}{%1#3}{%1#g}{%1#c}{%1#blue}{%1#magenta}' '█'`
+`cprintf '{%1#1}{%1#3}{%1#g}{%1#c}{%1#blue}{%1#magenta}' '█'`
 
 <pre><span style="color:red;">█</span><span style="color:yellow;">█</span><span style="color:green;">█</span><span style="color:cyan;">█</span><span style="color:blue;">█</span><span style="color:magenta;">█</span></pre>
 
@@ -51,14 +51,14 @@ Use either codes, single letters or words to describe a color.
 
 Shows the color in a brighter variant.
 
-`cecho '{%1#9}{%1#G}{%1#BLUE}' '█'`
+`cprintf '{%1#9}{%1#G}{%1#BLUE}' '█'`
 
 <pre><span style="color:indianred;">█</span><span style="color:chartreuse;">█</span><span style="color:deepskyblue;">█</span></pre>
 
 ### Foreground and background colors
 
 ```bash
-cecho '{#RED/YELLOW}' 'Warning!'
+cprintf '{#RED/YELLOW}' 'Warning!'
 ```
 
 <pre><span style="color:red; background-color: yellow;">Warning!</span></pre>
@@ -68,13 +68,13 @@ cecho '{#RED/YELLOW}' 'Warning!'
 Change the order of display or re-use a value.
 
 ```bash
-cecho '{%3}-{%2}={%1}' a b c
+cprintf '{%3}-{%2}={%1}' a b c
 ```
 
 `c-b=a`
 
 ```bash
-cecho '{%3} {%2} {%1} {%2} {%3}' 1 2 3
+cprintf '{%3} {%2} {%1} {%2} {%3}' 1 2 3
 ```
 
 `3 2 1 2 3`
@@ -84,12 +84,12 @@ cecho '{%3} {%2} {%1} {%2} {%3}' 1 2 3
 The specifiers' order is not important
 
 ```bash
-cecho '{#red%1}' 'RED'
+cprintf '{#red%1}' 'RED'
 ```
 and
 
 ```bash
-cecho '{%1#red}' 'RED'
+cprintf '{%1#red}' 'RED'
 ```
 
 Are the same
@@ -101,14 +101,14 @@ Are the same
 If the specifier for an item is getting cluttered, for instance
 
 ```bash
-cecho '{#yellow/magenta%1!strikethrough}' 'foo'
+cprintf '{#yellow/magenta%1!strikethrough}' 'foo'
 ```
 
 Take a deep breath, relax, and give yourself some space.
 Tabs are accepted.
 
 ```bash
-cecho '{ #yellow/magenta   %1   !strikethrough }' 'चक्र'
+cprintf '{ #yellow/magenta   %1   !strikethrough }' 'चक्र'
 ```
 
 <pre><span style="color:yellow; background-color: magenta; text-decoration: line-through;">चक्र</span></pre>
@@ -116,7 +116,7 @@ cecho '{ #yellow/magenta   %1   !strikethrough }' 'चक्र'
 ### New lines and other c-style escape sequences
 
 ```bash
-cecho 'a\nb\nc'
+cprintf 'a\nb\nc'
 ```
 
 ```
@@ -128,7 +128,7 @@ c
 ### Literal brackets
 
 ```bash
-cecho '\{{#cyan}\}' 'value'
+cprintf '\{{#cyan}\}' 'value'
 ```
 
 <pre><span style="color:cyan;">{value}</span></pre>
@@ -136,7 +136,7 @@ cecho '\{{#cyan}\}' 'value'
 ---
 
 ```bash
-cecho '{}' '{}'
+cprintf '{}' '{}'
 ```
 
 `{}`
@@ -144,7 +144,7 @@ cecho '{}' '{}'
 ---
 
 ```bash
-cecho '\{}'
+cprintf '\{}'
 ```
 
 `{}`
@@ -154,7 +154,7 @@ cecho '\{}'
 Bold
 
 ```bash
-cecho '{style=bold}' BOLD
+cprintf '{style=bold}' BOLD
 ```
 
 <pre><b>BOLD</b></pre>
@@ -162,7 +162,7 @@ cecho '{style=bold}' BOLD
 Dimmed
 
 ```bash
-cecho '{style=dim}' dimmed
+cprintf '{style=dim}' dimmed
 ```
 
 <pre><span style="color:dimgray;">dimmed</span></pre>
@@ -170,7 +170,7 @@ cecho '{style=dim}' dimmed
 Italic
 
 ```bash
-cecho '{style=italic}' Italic
+cprintf '{style=italic}' Italic
 ```
 
 <pre><span style="font-style: italic;">Italic</span></pre>
@@ -178,7 +178,7 @@ cecho '{style=italic}' Italic
 Underline
 
 ```bash
-cecho '{style=underline}' '_-^Underlined^-_'
+cprintf '{style=underline}' '_-^Underlined^-_'
 ```
 
 <pre><span style="text-decoration: underline;">_-^Underlined^-_</span></pre>
@@ -188,7 +188,7 @@ Blink
 This one may not show up as blinking on a web page but it sure blinks in the terminal 🌟
 
 ```bash
-cecho '{style=blink}' 'Hey!'
+cprintf '{style=blink}' 'Hey!'
 ```
 
 <pre><span style="text-decoration: blink;">Hey!</span></pre>
@@ -198,7 +198,7 @@ Reversed
 The foreground and background specs are inverted.
 
 ```bash
-cecho '{style=reverse color=red/yellow}' 'This shows yellow on red instead of red on yellow'
+cprintf '{style=reverse color=red/yellow}' 'This shows yellow on red instead of red on yellow'
 ```
 
 <pre><span style="color:yellow; background-color: red;">This shows yellow on red instead of red on yellow</span></pre>
@@ -206,7 +206,7 @@ cecho '{style=reverse color=red/yellow}' 'This shows yellow on red instead of re
 Hidden
 
 ```bash
-cecho '->{style=hidden}<-' 'Hide and seek'
+cprintf '->{style=hidden}<-' 'Hide and seek'
 ```
 
 <pre>-><span style="visibility: hidden;">Hide and seek</span><-</pre>
@@ -214,7 +214,7 @@ cecho '->{style=hidden}<-' 'Hide and seek'
 Strike through
 
 ```bash
-cecho '{style=strike color=red}' 'Wrong'
+cprintf '{style=strike color=red}' 'Wrong'
 ```
 
 <pre><span style="text-decoration: line-through; color: red;">Wrong</span></pre>

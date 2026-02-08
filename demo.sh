@@ -2,7 +2,7 @@
 
 dir=$(dirname $0)
 
-[[ -e "$dir/target/release/cecho" ]] || cd "$dir" && cargo build --release
+[[ -e "$dir/target/release/cprintf" ]] || cd "$dir" && cargo build --release
 
 cd "$dir/target/release/"
 
@@ -22,7 +22,7 @@ pr() {
 
     echo
     set -x
-    ./cecho "$1" "${@:2}"
+    ./cprintf "$1" "${@:2}"
     { set +x; } 2>/dev/null;
         echo
 
@@ -35,7 +35,7 @@ prnp() {
 
     echo
     set -x
-    ./cecho "$1" "${@:2}"
+    ./cprintf "$1" "${@:2}"
     { set +x; } 2>/dev/null;
         echo
 
@@ -51,7 +51,7 @@ base() {
     echo
     echo
 
-    echo 'Canonical cecho: format and placeholder + arguments'
+    echo 'Canonical cprintf: format and placeholder + arguments'
     pr '{}' 'Hi there!'
 
     echo 'Add a color specifier with a parameter {color=...}'
@@ -129,7 +129,7 @@ EOF
 }
 
 col_row() {
-    ./cecho "{#$1}\t{#$2}\t{#$3}\n" $1 $2 $3
+    ./cprintf "{#$1}\t{#$2}\t{#$3}\n" $1 $2 $3
 }
 
 color_detail() {
@@ -147,7 +147,7 @@ color_detail() {
     echo 'Here is a table of the available colors'
     echo -e 'Code\tLetter\tWord'
 
-    ./cecho "{#0/white}\t{#k/white}\t{#black/white}\n" 0 k black
+    ./cprintf "{#0/white}\t{#k/white}\t{#black/white}\n" 0 k black
     col_row 1 r red
     col_row 2 g green
     col_row 3 y yellow
@@ -162,7 +162,7 @@ color_detail() {
     echo 'The bright bit changes the color intensity'
     echo 'To use it, use the upper case notation'
     echo -e 'Code\tLetter\tWord'
-    ./cecho '{#8/w}\t{#k/w}\t{#K/w}\n' 8 K BLACK
+    ./cprintf '{#8/w}\t{#k/w}\t{#K/w}\n' 8 K BLACK
     col_row 9 R RED
     col_row 10 G GREEN
     col_row 11 Y YELLOW
@@ -173,9 +173,9 @@ color_detail() {
 
     echo
     echo 'Comparison between the regular and bright color modes'
-    ./cecho '{%1#r}{%1#y}{%1#g}{%1#c}{%1#b}{%1#m}' '█'
+    ./cprintf '{%1#r}{%1#y}{%1#g}{%1#c}{%1#b}{%1#m}' '█'
     echo
-    ./cecho '{%1#R}{%1#Y}{%1#G}{%1#C}{%1#B}{%1#M}' '█'
+    ./cprintf '{%1#R}{%1#Y}{%1#G}{%1#C}{%1#B}{%1#M}' '█'
     echo
     pause
     echo
@@ -250,7 +250,7 @@ special_chars() {
     pr 'Page 1\fPage 2'
 
     echo 'Carriage return'
-    pr '{#black/white}\r{#red}' 'I hate cecho' 'I love '
+    pr '{#black/white}\r{#red}' 'I hate cprintf' 'I love '
 
 }
 

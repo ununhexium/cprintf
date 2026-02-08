@@ -2,7 +2,7 @@ use crate::model::Part::Specification;
 use crate::parser::parse_format;
 use crate::writer::spec_to_ansi;
 
-pub fn cecho(inputs: Vec<String>) -> Result<String, String> {
+pub fn cprintf(inputs: Vec<String>) -> Result<String, String> {
     let parsed = parse_format(&inputs[0]);
 
     match parsed {
@@ -16,16 +16,16 @@ pub fn cecho(inputs: Vec<String>) -> Result<String, String> {
 
             // TODO Special cases handling for more user friendliness
             //
-            // cecho
+            // cprintf
             // Is valid and outputs nothing
             //
-            // cecho ''
+            // cprintf ''
             // Is valid and outputs nothing
             //
-            // cecho 'No qualifier here'
+            // cprintf 'No qualifier here'
             // Is valid and outputs the format only as a literal.
             //
-            // cecho '' 'This string is not interpreted' 'Nor is this one'
+            // cprintf '' 'This string is not interpreted' 'Nor is this one'
             // Is valid and outputs each of the strings, concatenated, on the same line
             //
             // The other cases require at least 2 arguments
@@ -47,12 +47,12 @@ pub fn cecho(inputs: Vec<String>) -> Result<String, String> {
 #[cfg(test)]
 mod tests {
     use crate::vecs;
-    use crate::cecho::cecho;
+    use crate::cprintf::cprintf;
 
     #[test]
     fn check_that_there_is_at_least_2_arguments_when_there_is_1_spec() {
         let i = vecs!("{}");
-        let actual = cecho(i);
+        let actual = cprintf(i);
 
         assert_eq!(
             actual.err(),
@@ -62,21 +62,21 @@ mod tests {
 
     #[test]
     fn print_formatted_string_with_positional_arguments() {
-        let actual = cecho(vecs!("{}+{}={}", "1", "2", "3"));
+        let actual = cprintf(vecs!("{}+{}={}", "1", "2", "3"));
         assert_eq!(actual.unwrap(), "1+2=3\x1b[0m".to_string());
     }
 
     #[test]
     fn when_the_first_string_is_empty_and_there_are_2_arguments_just_return_the_second_argument() {
         let i = vecs!("", "{foo}");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("{foo}".to_string()));
     }
 
     #[test]
     fn when_the_first_string_is_empty_and_there_are_n_arguments_just_return_their_concatenation() {
         let i = vecs!("", "1", ", 2, ", "N...");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("1, 2, N...".to_string()));
     }
 
@@ -86,42 +86,42 @@ mod tests {
             r#"Just raw text, nothing special, no placeholder like \{\}"#,
             "this will be ignored because the format contains no formatting specifier"
         );
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("Just raw text, nothing special, no placeholder like {}\x1b[0m".to_string()));
     }
 
     #[test]
     fn when_a_format_is_specified_then_use_it_2_specs() {
         let i = vecs!("{} and {}", "A", "B");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("A and B\x1b[0m".to_string()));
     }
 
     #[test]
     fn print_red() {
         let i = vecs!("{#r}", "red");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("\x1b[31mred\x1b[0m\x1b[0m".to_string()));
     }
 
     #[test]
     fn print_green() {
         let i = vecs!("{#g}", "green");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("\x1b[32mgreen\x1b[0m\x1b[0m".to_string()));
     }
 
     #[test]
     fn tolerate_missing_arguments_when_the_format_doesnt_contain_specs() {
         let i = vecs!(r#"\{}"#);
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), Some("{}\x1b[0m".to_string()));
     }
 
     #[test]
     fn a_single_empty_string_as_the_single_argument_is_valid_and_does_nothing() {
         let i = vecs!("");
-        let actual = cecho(i);
+        let actual = cprintf(i);
         assert_eq!(actual.ok(), None);
     }
 

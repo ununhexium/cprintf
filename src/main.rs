@@ -1,12 +1,12 @@
 use std::env;
-use cecho::cecho::cecho;
+use cprintf::cprintf::cprintf;
 
 fn main() {
     let mut arguments: Vec<String> = Vec::new();
     for a in env::args().skip(1) /* skip the process name */ {
         arguments.push(a)
     }
-    let result = cecho(arguments);
+    let result = cprintf(arguments);
 
     match result {
         Err(m) => {
@@ -30,7 +30,7 @@ mod tests {
 
     #[test]
     fn require_at_least_2_arguments() -> Result<(), Box<dyn std::error::Error>> {
-        let mut cmd = Command::cargo_bin("cecho")?;
+        let mut cmd = Command::cargo_bin("cprintf")?;
 
         cmd.arg("");
         cmd.assert()
@@ -42,7 +42,7 @@ mod tests {
 
     #[test]
     fn print_any_string_by_omitting_the_format() -> Result<(), Box<dyn std::error::Error>> {
-        let mut cmd = Command::cargo_bin("cecho")?;
+        let mut cmd = Command::cargo_bin("cprintf")?;
 
         cmd.arg("").arg("Whatever you want here!");
         cmd.assert()
@@ -54,7 +54,7 @@ mod tests {
 
     #[test]
     fn print_just_brackets_using_2_args() -> Result<(), Box<dyn std::error::Error>> {
-        let mut cmd = Command::cargo_bin("cecho")?;
+        let mut cmd = Command::cargo_bin("cprintf")?;
 
         cmd.arg("{}").arg("{}");
         cmd.assert()
@@ -66,7 +66,7 @@ mod tests {
 
     #[test]
     fn print_indexed_specs() -> Result<(), Box<dyn std::error::Error>> {
-        let mut cmd = Command::cargo_bin("cecho")?;
+        let mut cmd = Command::cargo_bin("cprintf")?;
 
         cmd.arg("{%3} {%2} {%1} {%2} {%3}").arg("1").arg("2").arg("3");
         cmd.assert()
@@ -78,7 +78,7 @@ mod tests {
 
     #[test]
     fn print_literal_brackets() -> Result<(), Box<dyn std::error::Error>> {
-        let mut cmd = Command::cargo_bin("cecho")?;
+        let mut cmd = Command::cargo_bin("cprintf")?;
 
         cmd.arg(r#"\{{}\}"#).arg("value");
         cmd.assert()

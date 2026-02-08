@@ -1,13 +1,10 @@
-# cecho
+# cprintf
 
-Color echo.
+`printf`-like with color and style support.
 
 A sanitized `printf` alternative that also prints colors.
 
 Actually works in `printf` style but with easy color and style specifiers.
-
-It's named after echo for "marketing" purposes because that's what people will 
-probably look for when the first want to print colored text.
 
 ## Examples
 
@@ -50,7 +47,7 @@ Text examples are available in the [Examples.md](./Examples.md) file.
 
 # Specification
 
-`cecho` takes at least 1 argument: a format and as many arguments as necessary.
+`cprintf` takes at least 1 argument: a format and as many arguments as necessary.
 
 It works in the style of `printf`.
 
@@ -123,13 +120,13 @@ Either side is optional.
 ### A reference
 
 Unlike `printf` where the order of arguments is forced,
-`cecho` may use arguments in any order with `%x` 
-where `x` is an integer referring to the arguments passed to `cecho`.
+`cprintf` may use arguments in any order with `%x` 
+where `x` is an integer referring to the arguments passed to `cprintf`.
 
 To use it like `printf`, do
 
 ```bash
-cecho '{} {} {}' a b c
+cprintf '{} {} {}' a b c
 ``` 
 
 `a b c`
@@ -137,7 +134,7 @@ cecho '{} {} {}' a b c
 To select an argument by its position, do
 
 ```bash
-cecho '{%3} {%2} {%1}' a b c
+cprintf '{%3} {%2} {%1}' a b c
 ``` 
 
 `c b a`
@@ -168,7 +165,7 @@ Some styles have several names.
 
 It's possible to combine the styles.
 
-For instance `cecho 'foo {!italic!bold!dim!blink!strike!underline#red}' bar` for maximum visibility 🌟.
+For instance `cprintf 'foo {!italic!bold!dim!blink!strike!underline#red}' bar` for maximum visibility 🌟.
 
 The options for the style specifiers are not case-sensitive.
 
@@ -264,7 +261,7 @@ Also accepted:
 
 Use `{@}` to mean "all the args", bash-style.
 
-`cecho 'hello {%1} {@} {%1}' world foo`
+`cprintf 'hello {%1} {@} {%1}' world foo`
 
 `hello world world foo world`
 
@@ -273,21 +270,21 @@ The separator between the arguments defaults to space ` `.
 It's also possible to specify the separator using pipes.
 
 ```bash
-cecho 'hello {%1} {@|, |} {%1}' 1 2 3 4
+cprintf 'hello {%1} {@|, |} {%1}' 1 2 3 4
 ```
 
 `1 1, 2, 3, 4 1`
 
 
 ```bash
-cecho 'hello {@|\||}' a b
+cprintf 'hello {@|\||}' a b
 ```
 
 `a|b`
 
 It's possible to give a style to all the arguments at once using the previous specifiers.
 
-`cecho {all style=bold color=red}`
+`cprintf {all style=bold color=red}`
 
 Will print all the arguments in red.
 
@@ -295,11 +292,11 @@ Will print all the arguments in red.
 ## Speed
 
 ```bash
-hyperfine --shell=none 'target/release/cecho "foo {!bold color=rgb(1,2,3)} bar {style=blink index=2 #k/R} baz" "Wagamama" "Sakura"'
+hyperfine --shell=none 'target/release/cprintf "foo {!bold color=rgb(1,2,3)} bar {style=blink index=2 #k/R} baz" "Wagamama" "Sakura"'
 ```
 
 ```
-Benchmark 1: target/release/cecho "foo {!bold color=rgb(1,2,3)} bar {style=blink index=2 #k/R} baz" "Wagamama" "Sakura"
+Benchmark 1: target/release/cprintf "foo {!bold color=rgb(1,2,3)} bar {style=blink index=2 #k/R} baz" "Wagamama" "Sakura"
   Time (mean ± σ):       1.7 ms ±   0.2 ms    [User: 1.1 ms, System: 0.5 ms]
   Range (min … max):     1.1 ms …   3.3 ms    1155 runs
 ```
@@ -311,8 +308,8 @@ Is it fast? Is it slow? Surely fast enough to satisfy your eyes' bandwidth :)
 A bit chubby.
 
 ```
-ll target/release/cecho
--rwxrwxr-x 2 uuh uuh 2,1M Okt 11 19:46 target/release/cecho
+ll target/release/cprintf
+-rwxrwxr-x 2 uuh uuh 2,1M Okt 11 19:46 target/release/cprintf
 ```
 
 ## Goals
